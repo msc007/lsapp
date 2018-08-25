@@ -1,11 +1,14 @@
 <?php
 
-$url = pase_url(getenv("DATABSE_URL"));
-$host = $url["host"]??null;
-$username = $url["user"]??null;
-$password = $url["pass"]??null;
-$db = substr($url["path"], 1)??null;
 
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$db = substr($url["path"], 1);
+
+//$conn = new mysqli($server, $username, $password, $db);
 return [
 
     /*
@@ -62,17 +65,14 @@ return [
 
         'mysql_production' => [
             'driver' => 'mysql',
-            'host' => $host,
-            'port' => env('DB_PORT', '3306'),
+            'host' => $server,
             'database' => $db,
             'username' => $username,
             'password' => $password,
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+            'charset' => 'utf8',
             'prefix' => '',
-            'strict' => true,
-            'engine' => null,
+            'schema' => 'public',
+
         ],
 
         'pgsql' => [
